@@ -1,0 +1,19 @@
+name: Telegram Notify
+description: Delivers notification of action status to Telegram chat
+author: KlyuchnikovV
+
+inputs:
+  token:
+    description: Telegram token of bot
+    required: true
+  chat_id:
+    description: Chat id
+    required: true
+  message:
+    description: Message to send
+    required: false
+    default: Pushed
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
