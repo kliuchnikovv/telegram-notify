@@ -1,10 +1,10 @@
-name: Telegram Notify
-description: Delivers notification of action status to Telegram chat
+name: Telegram Build Notifier
+description: Allows you to configure the delivery of messages about the build process to Telegram
 author: KlyuchnikovV
 
 inputs:
   token:
-    description: Telegram token of bot
+    description: Telegram bot token
     required: true
   chat_id:
     description: Chat id
@@ -17,3 +17,7 @@ inputs:
 runs:
   using: 'docker'
   image: 'Dockerfile'
+
+branding:
+  icon: 'message-circle'
+  color: 'blue'
