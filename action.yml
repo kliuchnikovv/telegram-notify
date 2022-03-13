@@ -7,16 +7,24 @@ inputs:
     description: Telegram bot token
     required: true
   chat_id:
-    description: Chat id
+    description: Unique identifier for the target chat or username of the target channel
     required: true
-  message:
-    description: Message to send
-    required: false
-    default: Pushed
   parse_mode:
-    description: Parse mode of the message (Could be 'markdown' or 'markdown2' or 'html')
+    description: Mode for parsing entities in the message text (Could be 'markdown' or 'markdown2' or 'html')
     required: false
     default: ''
+  disable_links_preview:
+    description: Disables link previews for links in this message ('true' or 'false')
+    required: false
+    default: 'false'
+  message:
+    description: Text of the message to be sent, 1-4096 characters after entities parsing
+    required: false
+    default: |
+      Build [#${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) of "[${{ github.repository }}](${{ github.server_url }}/${{ github.repository }})" ${{ github.action_status }}.
+
+      📝 Commit by ${{ github.actor }} on ${{ github.ref_name }}:
+      ${{ github.event.head_commit.message }}
 
 runs:
   using: 'docker'

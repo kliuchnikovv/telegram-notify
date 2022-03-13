@@ -5,16 +5,18 @@ import (
 	"log"
 	"os"
 	"strconv"
+	"strings"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 )
 
+var icons = map[string]string{
+	"success":   "✅",
+	"failure":   "❌",
+	"cancelled": "❕",
+}
+
 func main() {
-	// icons := map[string]string{
-	// 	"failure":   "❗",
-	// 	"cancelled": "❕",
-	// 	"success":   "✅",
-	// }
 
 	var token = os.Getenv("INPUT_TOKEN")
 
@@ -40,9 +42,10 @@ func main() {
 
 func newMessage() (*tgbotapi.MessageConfig, error) {
 	var (
-		chat      = os.Getenv("INPUT_CHAT_ID")
-		message   = os.Getenv("INPUT_MESSAGE")
-		parseMode = os.Getenv("INPUT_PARSE_MODE")
+		chat                = os.Getenv("INPUT_CHAT_ID")
+		message             = os.Getenv("INPUT_MESSAGE")
+		parseMode           = os.Getenv("INPUT_PARSE_MODE")
+		disableLinksPreview = os.Getenv("INPUT_DISABLE_LINKS_PREVIEW")
 	)
 
 	if chat == "" {
@@ -54,10 +57,7 @@ func newMessage() (*tgbotapi.MessageConfig, error) {
 		return nil, err
 	}
 
-	if message == "" {
-		message = "Pushed" //TODO:
-	}
-	var msg = tgbotapi.NewMessage(chatID, message)
+	var msg = tgbotapi.NewMessage(chatID, fmt.Sprintf("%s %s", icons["success"], message))
 	switch parseMode {
 	case "markdown":
 		msg.ParseMode = "Markdown"
@@ -65,6 +65,10 @@ func newMessage() (*tgbotapi.MessageConfig, error) {
 		msg.ParseMode = "MarkdownV2"
 	case "html":
 		msg.ParseMode = "HTML"
+	}
+
+	if strings.ToLower(disableLinksPreview) == "true" {
+		msg.DisableWebPagePreview = true
 	}
 
 	return &msg, nil
