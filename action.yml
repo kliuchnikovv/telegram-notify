@@ -9,14 +9,18 @@ inputs:
   chat_id:
     description: Unique identifier for the target chat or username of the target channel
     required: true
+  status:
+    description: Status of workflow
+    required: false
+    default: ${{ github.action_status }}
   parse_mode:
     description: Mode for parsing entities in the message text (Could be 'markdown' or 'markdown2' or 'html')
     required: false
-    default: ''
+    default: ""
   disable_links_preview:
     description: Disables link previews for links in this message ('true' or 'false')
     required: false
-    default: 'false'
+    default: "false"
   message:
     description: Text of the message to be sent, 1-4096 characters after entities parsing
     required: false
@@ -27,11 +31,9 @@ inputs:
       ${{ github.event.head_commit.message }}
 
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  args:
-    - ${{ github.action_status }}
+  using: "docker"
+  image: "Dockerfile"
 
 branding:
-  icon: 'message-circle'
-  color: 'blue'
+  icon: "message-circle"
+  color: "blue"
