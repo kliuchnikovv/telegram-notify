@@ -14,7 +14,6 @@ var icons = map[string]string{
 	"success":   "✅",
 	"failure":   "❌",
 	"cancelled": "❕",
-	"":          "NULL",
 }
 
 func main() {
@@ -47,7 +46,7 @@ func newMessage() (*tgbotapi.MessageConfig, error) {
 		message             = os.Getenv("INPUT_MESSAGE")
 		parseMode           = os.Getenv("INPUT_PARSE_MODE")
 		disableLinksPreview = os.Getenv("INPUT_DISABLE_LINKS_PREVIEW")
-		status              = os.Getenv("GITHUB_ACTION_STATUS")
+		status              = os.Getenv("INPUT_STATUS")
 	)
 
 	log.Printf("%#v", os.Environ())
