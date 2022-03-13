@@ -16,9 +16,9 @@ func main() {
 	// }
 
 	var (
-		token   = os.Getenv("TELEGRAM_TOKEN")
-		chat    = os.Getenv("TELEGRAM_CHAT")
-		message = os.Getenv("TELEGRAM_MESSAGE")
+		token   = os.Getenv("INPUT_TOKEN")
+		chat    = os.Getenv("INPUT_CHAT_ID")
+		message = os.Getenv("INPUT_MESSAGE")
 
 		chatID int64
 		err    error
