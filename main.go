@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"strconv"
@@ -15,30 +16,10 @@ func main() {
 	// 	"success":   "✅",
 	// }
 
-	var (
-		token   = os.Getenv("INPUT_TOKEN")
-		chat    = os.Getenv("INPUT_CHAT_ID")
-		message = os.Getenv("INPUT_MESSAGE")
-
-		chatID int64
-		err    error
-	)
+	var token = os.Getenv("INPUT_TOKEN")
 
 	if token == "" {
 		log.Fatal("token input is required")
-	}
-
-	if chat == "" {
-		log.Fatal("chat input is required")
-	} else {
-		chatID, err = strconv.ParseInt(chat, 10, 64)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
-	}
-
-	if message == "" {
-		message = "Pushed" //TODO:
 	}
 
 	bot, err := tgbotapi.NewBotAPI(token)
@@ -46,8 +27,45 @@ func main() {
 		log.Fatal(err.Error())
 	}
 
-	_, err = bot.Send(tgbotapi.NewMessage(chatID, message))
+	msg, err := newMessage()
 	if err != nil {
 		log.Fatal(err.Error())
 	}
+
+	_, err = bot.Send(msg)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+}
+
+func newMessage() (*tgbotapi.MessageConfig, error) {
+	var (
+		chat      = os.Getenv("INPUT_CHAT_ID")
+		message   = os.Getenv("INPUT_MESSAGE")
+		parseMode = os.Getenv("INPUT_PARSE_MODE")
+	)
+
+	if chat == "" {
+		return nil, fmt.Errorf("chat_id is required")
+	}
+
+	chatID, err := strconv.ParseInt(chat, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+
+	if message == "" {
+		message = "Pushed" //TODO:
+	}
+	var msg = tgbotapi.NewMessage(chatID, message)
+	switch parseMode {
+	case "markdown":
+		msg.ParseMode = "Markdown"
+	case "markdown2":
+		msg.ParseMode = "MarkdownV2"
+	case "html":
+		msg.ParseMode = "HTML"
+	}
+
+	return &msg, nil
 }

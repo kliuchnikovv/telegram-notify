@@ -13,6 +13,10 @@ inputs:
     description: Message to send
     required: false
     default: Pushed
+  parse_mode:
+    description: Parse mode of the message (Could be 'markdown' or 'markdown2' or 'html')
+    required: false
+    default: ''
 
 runs:
   using: 'docker'
