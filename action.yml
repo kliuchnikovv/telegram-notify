@@ -20,7 +20,12 @@ inputs:
   message:
     description: Text of the message to be sent, 1-4096 characters after entities parsing
     required: false
-    default: Build
+    default: |
+      Build [#${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) of "[${{ github.repository }}](${{ github.server_url }}/${{ github.repository }})" ${{ github.action_status }}.
+
+      📝 Commit by ${{ github.actor }} on ${{ github.ref_name }}:
+      ${{ github.event.head_commit.message }}
+
 runs:
   using: 'docker'
   image: 'Dockerfile'
