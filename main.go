@@ -14,6 +14,7 @@ var icons = map[string]string{
 	"success":   "✅",
 	"failure":   "❌",
 	"cancelled": "❕",
+	"":          "NULL",
 }
 
 func main() {
@@ -46,7 +47,10 @@ func newMessage() (*tgbotapi.MessageConfig, error) {
 		message             = os.Getenv("INPUT_MESSAGE")
 		parseMode           = os.Getenv("INPUT_PARSE_MODE")
 		disableLinksPreview = os.Getenv("INPUT_DISABLE_LINKS_PREVIEW")
+		status              = os.Getenv("GITHUB_ACTION_STATUS")
 	)
+
+	log.Printf("%#v", os.Environ())
 
 	if chat == "" {
 		return nil, fmt.Errorf("chat_id is required")
@@ -57,7 +61,7 @@ func newMessage() (*tgbotapi.MessageConfig, error) {
 		return nil, err
 	}
 
-	var msg = tgbotapi.NewMessage(chatID, fmt.Sprintf("%s %s", icons["success"], message))
+	var msg = tgbotapi.NewMessage(chatID, fmt.Sprintf("%s %s", icons[status], message))
 	switch parseMode {
 	case "markdown":
 		msg.ParseMode = "Markdown"

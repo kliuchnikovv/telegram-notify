@@ -29,6 +29,8 @@ inputs:
 runs:
   using: 'docker'
   image: 'Dockerfile'
+  args:
+    - ${{ github.action_status }}
 
 branding:
   icon: 'message-circle'
