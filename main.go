@@ -60,7 +60,7 @@ func newMessage() (*tgbotapi.MessageConfig, error) {
 		return nil, err
 	}
 
-	var msg = tgbotapi.NewMessage(chatID, fmt.Sprintf("%s %s", icons[status], message))
+	var msg = tgbotapi.NewMessage(chatID, fmt.Sprintf("%s %s: %s", icons[status], capitalize(status), message))
 	switch parseMode {
 	case "markdown":
 		msg.ParseMode = "Markdown"
@@ -75,4 +75,11 @@ func newMessage() (*tgbotapi.MessageConfig, error) {
 	}
 
 	return &msg, nil
+}
+
+func capitalize(s string) string {
+	if len(s) == 0 {
+		return ""
+	}
+	return fmt.Sprintf("%s%s", strings.ToUpper(string(s[0])), s[1:])
 }

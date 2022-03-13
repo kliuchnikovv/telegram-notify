@@ -10,7 +10,7 @@ inputs:
     description: Unique identifier for the target chat or username of the target channel
     required: true
   status:
-    description: Status of workflow (should be \${{ github.action_status }})
+    description: Status of workflow
     required: true
   parse_mode:
     description: Mode for parsing entities in the message text (Could be 'markdown' or 'markdown2' or 'html')
@@ -24,7 +24,7 @@ inputs:
     description: Text of the message to be sent, 1-4096 characters after entities parsing
     required: false
     default: |
-      Build [#${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) of "[${{ github.repository }}](${{ github.server_url }}/${{ github.repository }})" ${{ inputs.status }}.
+      [#${{ github.run_number }}](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) of "[${{ github.repository }}](${{ github.server_url }}/${{ github.repository }})".
 
       📝 Commit by ${{ github.actor }} on ${{ github.ref_name }}:
       ${{ github.event.head_commit.message }}
